@@ -27,22 +27,23 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   </head>
 
-  <body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f8f9fa;">
+  <body style="font-family: sans-serif; margin: 0; padding: 0; background-color: #f8f9fa;">
 
-    <div style="max-width: 1200px; margin: 0 auto; background-color: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1);">
+    <div id="app-wrapper" style="min-height: 100vh; display: flex; flex-direction: column;">
         
-    <header style="padding: 20px 0; border-bottom: 3px solid #f0f0f0; text-align: center;">
-        <a href="https://partyfavorphoto.com" style="display: inline-block; max-width: 90%; margin: 0 auto;">
-            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663031832247/LrdozKYdGPuXovNg.jpg" alt="Party Favor Photo - AI Photo Booth Logo" style="max-width: 100%; height: auto; display: block;">
+    <header style="padding: 10px 20px; border-bottom: 1px solid #eee; text-align: left; display: flex; align-items: center; justify-content: space-between; background-color: #fff;">
+        <a href="https://partyfavorphoto.com" style="display: inline-block;">
+            <img src="https://files.manuscdn.com/user_upload_by_module/session_file/310419663031832247/LrdozKYdGPuXovNg.jpg" alt="Party Favor Photo - AI Photo Booth Logo" style="height: 40px; width: auto;">
         </a>
+        <h1 style="font-size: 1.2em; margin: 0; color: #333;">AI Photo Booth</h1>
     </header>
     
-        <main style="padding: 20px;">
+        <main style="flex-grow: 1; padding: 0;">
             <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
         </main>
         
-    <footer style="text-align: center; padding: 20px 0; margin-top: 40px; border-top: 1px solid #ccc; font-size: 0.9em; color: #666;">
+    <footer style="text-align: center; padding: 10px 20px; margin-top: 20px; border-top: 1px solid #ccc; font-size: 0.8em; color: #666; background-color: #fff;">
         &copy; 2025 Party Favor Photo. All rights reserved. | <a href="https://partyfavorphoto.com" style="color: #007bff; text-decoration: none;">Visit our main site</a>
     </footer>
     
