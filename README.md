@@ -1,73 +1,43 @@
-# Welcome to your Lovable project
+# Party Favor Photo - AI Photo Booth
 
-## Project info
+Welcome to the **AI Photo Booth** repository for Party Favor Photo!
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+This project powers the AI-driven photo transformation service, allowing users to create fun, themed photos for various events like weddings, birthdays, and holidays.
 
-## How can I edit this code?
+## About Party Favor Photo
+[Party Favor Photo](https://partyfavorphoto.com) is dedicated to providing high-quality, fun, and memorable photo booth experiences. This AI Photo Booth is an extension of our commitment to innovative event photography.
 
-There are several ways of editing your application.
+## Project Structure
+This is a web application project, likely built with React/Vite (based on the \`index.html\` structure).
 
-**Use Lovable**
+### Getting Started
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+To run this project locally, follow these steps:
 
-Changes made via Lovable will be committed automatically to this repo.
+1.  **Clone the repository:**
+    \`\`\`bash
+    git clone https://github.com/DevGruGold/aiphotobooth.git
+    cd aiphotobooth
+    \`\`\`
 
-**Use your preferred IDE**
+2.  **Install dependencies:**
+    \`\`\`bash
+    npm install
+    # or
+    yarn install
+    \`\`\`
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+3.  **Run the development server:**
+    \`\`\`bash
+    npm run dev
+    # or
+    yarn dev
+    \`\`\`
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+The application should now be running on \`http://localhost:5173\` (or similar port).
 
-Follow these steps:
+## Deployment
+This project is designed for easy deployment. Ensure your environment variables for any necessary AI services are configured in your deployment platform (e.g., Render, Vercel, Netlify).
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+---
+*For support or inquiries, please visit our main website or contact us directly.*
