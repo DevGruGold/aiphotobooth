@@ -97,12 +97,13 @@ function ThemeCard({ theme, onClick, delay }: ThemeCardProps) {
       {/* Preview */}
       <div
         className={cn(
-          "aspect-square rounded-xl mb-3 flex items-center justify-center text-5xl bg-gradient-to-br transition-transform duration-300 group-hover:scale-105",
+          "aspect-square rounded-xl mb-3 flex items-center justify-center text-5xl bg-gradient-to-br transition-transform duration-300 group-hover:scale-105 overflow-hidden",
           theme.previewColor
         )}
       >
-        {theme.icon}
+        <img src={theme.previewImage} alt={theme.name} className="w-full h-full object-cover" />
       </div>
+      
 
       {/* Info */}
       <h3 className="font-display font-semibold text-foreground text-sm mb-1 line-clamp-1">
