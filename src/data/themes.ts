@@ -49,7 +49,7 @@ export const themes: Theme[] = [
     icon: '👑',
     prompt: 'Transform this photo into a stunning Quinceañera princess portrait. Add an elegant ball gown in pink or purple, a sparkling tiara, beautiful flower arrangements, and a grand ballroom background. Add soft romantic lighting, sparkles, and make it feel like a magical princess celebration. Include elegant jewelry and a sophisticated updo hairstyle.',
     previewColor: 'from-pink-100 to-purple-200',
-    previewImage: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=400&fit=crop&q=80',
+    previewImage: 'https://images.unsplash.com/photo-1594552072238-5c4a15dff0d2?w=400&h=400&fit=crop&q=80',
   },
   // MAKE ME LAUGH - EVENTS
   {
