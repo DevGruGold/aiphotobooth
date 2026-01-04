@@ -24,12 +24,20 @@ export function ResultScreen({
   const [viewMode, setViewMode] = useState<ViewMode>("transformed");
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const handleDownload = async () => {
+  const handleDownload = () => {
     setIsDownloading(true);
     try {
-      // Convert base64 to blob
-      const response = await fetch(transformedPhoto);
-      const blob = await response.blob();
+      // Extract base64 data and convert to blob
+      const base64Data = transformedPhoto.split(',')[1];
+      const mimeType = transformedPhoto.split(':')[1]?.split(';')[0] || 'image/png';
+      
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: mimeType });
       
       // Create download link
       const url = URL.createObjectURL(blob);
