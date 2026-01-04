@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { ArrowLeft, Download, RefreshCw, Share2, Sparkles } from "lucide-react";
+import { ArrowLeft, Download, Images, RefreshCw, Share2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Theme } from "@/data/themes";
 import { cn } from "@/lib/utils";
 import { toast } from "@/hooks/use-toast";
+
 interface ResultScreenProps {
   theme: Theme;
   originalPhoto: string;
   transformedPhoto: string;
   onStartOver: () => void;
   onTryAnother: () => void;
+  onSaveToGallery: () => Promise<void>;
 }
 
 type ViewMode = "transformed" | "comparison";
@@ -20,9 +22,22 @@ export function ResultScreen({
   transformedPhoto,
   onStartOver,
   onTryAnother,
+  onSaveToGallery,
 }: ResultScreenProps) {
   const [viewMode, setViewMode] = useState<ViewMode>("transformed");
   const [isDownloading, setIsDownloading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      await onSaveToGallery();
+      setIsSaved(true);
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleDownload = () => {
     setIsDownloading(true);
@@ -198,17 +213,45 @@ export function ResultScreen({
 
           {/* Action Buttons */}
           <div className="mt-6 space-y-3">
+            {/* Save to Gallery */}
+            {!isSaved && (
+              <Button
+                onClick={handleSave}
+                disabled={isSaving}
+                size="lg"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-display py-6"
+              >
+                {isSaving ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Images className="w-5 h-5 mr-2" />
+                    Save to Gallery
+                  </>
+                )}
+              </Button>
+            )}
+            {isSaved && (
+              <div className="w-full text-center py-3 text-sm text-muted-foreground font-body">
+                ✓ Saved to gallery
+              </div>
+            )}
+
             <div className="flex gap-3">
               <Button
                 onClick={handleDownload}
                 disabled={isDownloading}
                 size="lg"
-                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-display py-6"
+                variant="outline"
+                className="flex-1 font-display py-6"
               >
                 {isDownloading ? (
                   <>
                     <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
-                    Saving...
+                    ...
                   </>
                 ) : (
                   <>
@@ -220,7 +263,8 @@ export function ResultScreen({
               <Button
                 onClick={handleShare}
                 size="lg"
-                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-display py-6"
+                variant="outline"
+                className="flex-1 font-display py-6"
               >
                 <Share2 className="w-5 h-5 mr-2" />
                 Share

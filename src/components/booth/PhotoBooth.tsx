@@ -7,9 +7,11 @@ import { PhotoCapture } from "./PhotoCapture";
 import { ProcessingScreen } from "./ProcessingScreen";
 import { ResultScreen } from "./ResultScreen";
 import { ErrorScreen } from "./ErrorScreen";
+import { GalleryScreen } from "./GalleryScreen";
 import { useToast } from "@/hooks/use-toast";
+import { usePhotoGallery } from "@/hooks/usePhotoGallery";
 
-type BoothStep = "welcome" | "theme" | "capture" | "processing" | "result" | "error";
+type BoothStep = "welcome" | "theme" | "capture" | "processing" | "result" | "error" | "gallery";
 
 interface BoothState {
   step: BoothStep;
@@ -30,9 +32,14 @@ const initialState: BoothState = {
 export function PhotoBooth() {
   const [state, setState] = useState<BoothState>(initialState);
   const { toast } = useToast();
+  const gallery = usePhotoGallery();
 
   const handleStart = () => {
     setState((prev) => ({ ...prev, step: "theme" }));
+  };
+
+  const handleOpenGallery = () => {
+    setState((prev) => ({ ...prev, step: "gallery" }));
   };
 
   const handleSelectTheme = (theme: Theme) => {
@@ -69,6 +76,23 @@ export function PhotoBooth() {
     }
   };
 
+  const handleSaveToGallery = async () => {
+    if (!state.selectedTheme || !state.capturedPhoto || !state.transformedPhoto) return;
+    
+    try {
+      await gallery.savePhoto({
+        originalPhoto: state.capturedPhoto,
+        transformedPhoto: state.transformedPhoto,
+        themeId: state.selectedTheme.id,
+        themeName: state.selectedTheme.name,
+        themeIcon: state.selectedTheme.icon,
+      });
+      toast({ title: "Photo saved to gallery!" });
+    } catch {
+      toast({ title: "Failed to save photo", variant: "destructive" });
+    }
+  };
+
   const handleRetry = () => {
     if (state.capturedPhoto && state.selectedTheme) {
       handleCapture(state.capturedPhoto);
@@ -102,7 +126,18 @@ export function PhotoBooth() {
   // Render based on current step
   switch (state.step) {
     case "welcome":
-      return <WelcomeScreen onStart={handleStart} />;
+      return <WelcomeScreen onStart={handleStart} onOpenGallery={handleOpenGallery} photoCount={gallery.photos.length} />;
+
+    case "gallery":
+      return (
+        <GalleryScreen
+          photos={gallery.photos}
+          isLoading={gallery.isLoading}
+          onBack={handleStartOver}
+          onDeletePhoto={gallery.deletePhoto}
+          onClearAll={gallery.clearAllPhotos}
+        />
+      );
 
     case "theme":
       return (
@@ -135,6 +170,7 @@ export function PhotoBooth() {
           transformedPhoto={state.transformedPhoto}
           onStartOver={handleStartOver}
           onTryAnother={handleTryAnother}
+          onSaveToGallery={handleSaveToGallery}
         />
       );
 
