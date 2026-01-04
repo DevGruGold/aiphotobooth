@@ -1,11 +1,13 @@
-import { Sparkles } from "lucide-react";
+import { Images, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface WelcomeScreenProps {
   onStart: () => void;
+  onOpenGallery: () => void;
+  photoCount: number;
 }
 
-export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
+export function WelcomeScreen({ onStart, onOpenGallery, photoCount }: WelcomeScreenProps) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 booth-gradient relative overflow-hidden">
       {/* Animated background elements */}
@@ -48,6 +50,19 @@ export function WelcomeScreen({ onStart }: WelcomeScreenProps) {
           <Sparkles className="w-6 h-6 mr-2" />
           Get Started
         </Button>
+
+        {/* Gallery Button */}
+        {photoCount > 0 && (
+          <Button
+            onClick={onOpenGallery}
+            variant="ghost"
+            size="lg"
+            className="mt-4 text-white/90 hover:text-white hover:bg-white/10 font-display"
+          >
+            <Images className="w-5 h-5 mr-2" />
+            My Gallery ({photoCount})
+          </Button>
+        )}
       </div>
 
       {/* Bottom branding */}
