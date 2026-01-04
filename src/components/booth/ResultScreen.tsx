@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { ArrowLeft, Download, RefreshCw, Sparkles } from "lucide-react";
+import { ArrowLeft, Download, RefreshCw, Share2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Theme } from "@/data/themes";
 import { cn } from "@/lib/utils";
-
+import { toast } from "@/hooks/use-toast";
 interface ResultScreenProps {
   theme: Theme;
   originalPhoto: string;
@@ -55,6 +55,51 @@ export function ResultScreen({
     }
   };
 
+  const handleShare = async () => {
+    try {
+      // Convert base64 to blob for sharing
+      const base64Data = transformedPhoto.split(',')[1];
+      const mimeType = transformedPhoto.split(':')[1]?.split(';')[0] || 'image/png';
+      
+      const byteCharacters = atob(base64Data);
+      const byteNumbers = new Array(byteCharacters.length);
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: mimeType });
+      const file = new File([blob], `party-favor-${theme.id}.png`, { type: mimeType });
+
+      if (navigator.share && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: `My ${theme.name} Photo`,
+          text: `Check out my ${theme.name} transformation!`,
+          files: [file],
+        });
+      } else if (navigator.share) {
+        // Fallback without file sharing
+        await navigator.share({
+          title: `My ${theme.name} Photo`,
+          text: `Check out my ${theme.name} transformation!`,
+        });
+      } else {
+        // Fallback: copy to clipboard notification
+        toast({
+          title: "Sharing not supported",
+          description: "Download the image and share it manually.",
+        });
+      }
+    } catch (error) {
+      if ((error as Error).name !== 'AbortError') {
+        console.error("Share failed:", error);
+        toast({
+          title: "Share failed",
+          description: "Please try downloading and sharing manually.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
@@ -153,24 +198,34 @@ export function ResultScreen({
 
           {/* Action Buttons */}
           <div className="mt-6 space-y-3">
-            <Button
-              onClick={handleDownload}
-              disabled={isDownloading}
-              size="lg"
-              className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-display py-6"
-            >
-              {isDownloading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
-                  Downloading...
-                </>
-              ) : (
-                <>
-                  <Download className="w-5 h-5 mr-2" />
-                  Download Photo
-                </>
-              )}
-            </Button>
+            <div className="flex gap-3">
+              <Button
+                onClick={handleDownload}
+                disabled={isDownloading}
+                size="lg"
+                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-display py-6"
+              >
+                {isDownloading ? (
+                  <>
+                    <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin mr-2" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Download className="w-5 h-5 mr-2" />
+                    Download
+                  </>
+                )}
+              </Button>
+              <Button
+                onClick={handleShare}
+                size="lg"
+                className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 font-display py-6"
+              >
+                <Share2 className="w-5 h-5 mr-2" />
+                Share
+              </Button>
+            </div>
 
             <div className="flex gap-3">
               <Button
